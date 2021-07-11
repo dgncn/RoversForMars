@@ -14,6 +14,7 @@ namespace RoversForMars.Tests
             PlateauService plateauService = new PlateauService();
             var plateau = plateauService.CreatePlateau(xCoor, yCoor);
 
+            //örn: 1 2 N
             string roverCoordinates = string.Concat(roverXCoor, " ", roverYCoor, " ", "N");
             var rover = roverService.CreateRover(plateau, roverCoordinates);
             roverService.ExecuteDirections("LMLMLMLMM");
@@ -28,6 +29,8 @@ namespace RoversForMars.Tests
             RoverService roverService = new RoverService();
             PlateauService plateauService = new PlateauService();
             var plateau = plateauService.CreatePlateau(xCoor, yCoor);
+
+            //örn: 1 2 E
             string roverCoordinates = string.Concat(roverXCoor, " ", roverYCoor, " ", "E");
             var rover = roverService.CreateRover(plateau, roverCoordinates);
             roverService.ExecuteDirections("MMM");
@@ -42,6 +45,8 @@ namespace RoversForMars.Tests
             RoverService roverService = new RoverService();
             PlateauService plateauService = new PlateauService();
             var plateau = plateauService.CreatePlateau(xCoor, yCoor);
+
+            //örn: 1 2 T
             string roverCoordinates = string.Concat(roverXCoor, " ", roverYCoor, " ", "T");
             var rover = roverService.CreateRover(plateau, roverCoordinates);
             Assert.True(rover == null);
