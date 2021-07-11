@@ -11,21 +11,27 @@ namespace RoversForMars
     {
         static void Main(string[] args)
         {
+            #region service dependency injection
             var serviceProvider = new ServiceProviderConstructor().ServiceProvider;
 
             var _plateauService = serviceProvider.GetService<IPlateauService>();
             var _roverService = serviceProvider.GetService<IRoverService>();
             var _ioService = serviceProvider.GetService<IOService>();
+            #endregion
 
             Console.WriteLine(_ioService.GetSurfaceCoordinatesText());
 
-            Plateau newPlateau = _plateauService.CreatePlateau();
+            var surface = _plateauService.ConvertToCoordinates();
+
+            Plateau newPlateau = _plateauService.CreatePlateau(surface.RightCoordinate, surface.UpperCoordinate);
             if (newPlateau == null)
                 return;
 
             while (true)
             {
-                MarsRover newRover = _roverService.CreateRover(newPlateau);
+                Console.WriteLine(_ioService.GetLocationCoordinatesForRover());
+                string coordinateAdressesForRover = Console.ReadLine();
+                MarsRover newRover = _roverService.CreateRover(newPlateau, coordinateAdressesForRover);
                 if (newRover == null)
                     return;
 
@@ -37,7 +43,7 @@ namespace RoversForMars
                 _roverService.ExecuteDirections(directionCoordinates);
 
                 //son konumu ve yönü yazar
-                Console.WriteLine(string.Concat(newRover.CoordinateX, " ", newRover.CoordinateY, " ", _roverService.AbbrDirection(newRover.RoverDirection)));
+                _roverService.ShowLastLocation(newRover);
             }
         }
 

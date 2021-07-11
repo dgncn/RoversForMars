@@ -17,12 +17,9 @@ namespace RoversForMars.Application.Services
             set { _marsRover = value; }
         }
 
-        public MarsRover CreateRover(Plateau newPlateau)
+        public MarsRover CreateRover(Plateau newPlateau, string coordinateAdressesForRover)
         {
-            Console.WriteLine(QuestionMessages.GetLocationCoordinatesForRover);
-            string coordinateAdressesForRover = Console.ReadLine();
             string[] coordinateArrayForRover = coordinateAdressesForRover.Split(' ');
-
             if (coordinateArrayForRover.Length <= 2)
             {
                 Console.WriteLine(ErrorMessages.InvalidLocationCoordinationValuesForRover);
@@ -32,7 +29,6 @@ namespace RoversForMars.Application.Services
             MarsRover newRover = new MarsRover();
             if (int.TryParse(coordinateArrayForRover[0], out int defaultCoordinateXForRover))
             {
-                // mars yüzeyinin x koordinatının değeri curiosity aracımızın x koordinatındaki değerinden büyük olması gerekir.
                 if (newPlateau.UpperCoordinate >= defaultCoordinateXForRover)
                 {
                     newRover.CoordinateX = defaultCoordinateXForRover;
@@ -46,7 +42,6 @@ namespace RoversForMars.Application.Services
 
             if (int.TryParse(coordinateArrayForRover[1], out int defaultCoordinateYForRover))
             {
-                // mars yüzeyinin Y koordinatının değeri curiosity aracımızın Y koordinatındaki değerinden büyük olması gerekir.
                 if (newPlateau.UpperCoordinate >= defaultCoordinateYForRover)
                 {
                     newRover.CoordinateY = defaultCoordinateYForRover;
@@ -188,11 +183,6 @@ namespace RoversForMars.Application.Services
             }
         }
 
-        /// <summary>
-        /// this method abbrivates direction names 
-        /// </summary>
-        /// <param name="directionEnum"></param>
-        /// <returns></returns>
         public string AbbrDirection(DirectionEnum directionEnum)
         {
             switch (directionEnum)
@@ -208,6 +198,12 @@ namespace RoversForMars.Application.Services
                 default:
                     return string.Empty;
             }
+        }
+
+        public void ShowLastLocation(MarsRover newRover)
+        {
+            var result = string.Concat(newRover.CoordinateX, " ", newRover.CoordinateY, " ", AbbrDirection(newRover.RoverDirection));
+            Console.WriteLine(result);
         }
     }
 }

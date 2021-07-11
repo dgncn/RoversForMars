@@ -1,5 +1,6 @@
 ﻿using RoversForMars.Application.Interfaces;
 using RoversForMars.Domain.Plateaus;
+using RoversForMars.Domain.Surfaces;
 using System;
 using static RoversForMars.Domain.Core.Messages;
 
@@ -7,34 +8,40 @@ namespace RoversForMars.Application.Services
 {
     public class PlateauService : IPlateauService
     {
-        public Plateau CreatePlateau()
+        public Plateau CreatePlateau(int xCoordinate = 0, int yCoordinate = 0)
         {
-            int defaultValue = default, rightMaxForPlateau = default, upperMaxForPlateau = default;
+            if (xCoordinate == 0 || yCoordinate == 0)
+            {
+                Console.WriteLine(ErrorMessages.InvalidCoordinationValuesForMars);
+                return null;
+            }
+            Plateau newPlateau = new Plateau(xCoordinate, yCoordinate);
+            return newPlateau;
+        }
+
+        // girilen plato sol ve yukarı koordinat değerlerini rakamlara çevirir
+        public Surface ConvertToCoordinates()
+        {
+            Surface surface = new Surface();
             string coordinateAdressesForPlateau = Console.ReadLine();
             string[] coordinateArray = coordinateAdressesForPlateau.Split(' ');
 
             if (coordinateArray.Length <= 1)
             {
                 Console.WriteLine(ErrorMessages.InvalidCoordinationValuesForMars);
-                return null;
+                return surface;
             }
 
+            int defaultValue;
             if (int.TryParse(coordinateArray[0], out defaultValue))
             {
-                upperMaxForPlateau = defaultValue;
+                surface.UpperCoordinate = defaultValue;
             }
             if (int.TryParse(coordinateArray[1], out defaultValue))
             {
-                rightMaxForPlateau = defaultValue;
+                surface.RightCoordinate = defaultValue;
             }
-
-            if (upperMaxForPlateau == 0 || rightMaxForPlateau == 0)
-            {
-                Console.WriteLine(ErrorMessages.InvalidCoordinationValuesForMars);
-                return null;
-            }
-            Plateau newPlateau = new Plateau(upperMaxForPlateau, rightMaxForPlateau);
-            return newPlateau;
+            return surface;
         }
 
     }

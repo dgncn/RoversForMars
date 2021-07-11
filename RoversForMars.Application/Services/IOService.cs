@@ -13,5 +13,10 @@ namespace RoversForMars.Application.Services
         {
             return QuestionMessages.GetDirectionForRover;
         }
+
+        public string GetLocationCoordinatesForRover()
+        {
+            return QuestionMessages.GetLocationCoordinatesForRover;
+        }
     }
 }
